@@ -16,25 +16,18 @@
 		<h1>The Great Quote Machine</h1>
 	</div>
 
-
 	<div class="container">
-		<c:forEach var="quote" items="${quotes}">
-
-			<blockquote>
-
-				<p>
-					<a href="/edit?id=${quote.ID}"><span class="glyphicon glyphicon-edit"></span></a>
-					${quote.text}
-				</p>
-				<footer>${quote.author}</footer>
-			</blockquote>
-		</c:forEach>
+		<blockquote>
+			<p>${quote.text}</p>
+			<footer>${quote.author}</footer>
+		</blockquote>
 	</div>
 
 	<div class="container">
 		<footer>
 			<p>The quote database contains ${fn:length(quotes)} quotes as of
-				<fmt:formatDate value="${now}" pattern="E h:m a"/>
+				<fmt:formatDate value="${now}" pattern="E h:m a"/>.
+				<a href="/new">Add a quote</a>
 			</p>
 		</footer>
 	</div>
@@ -43,12 +36,5 @@
 	<script src="/js/bootstrap.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
 
 

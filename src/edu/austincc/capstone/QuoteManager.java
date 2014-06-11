@@ -27,7 +27,9 @@ public class QuoteManager {
 		    ResultSet results = statement.executeQuery("select * from quote");
 		    
 			while (results.next()) {
-				quotes.add(new Quote(results.getString("text"), results.getString("author")));
+				quotes.add(new Quote(results.getInt("id"),
+						             results.getString("text"), 
+						             results.getString("author")));
 			}
 		    
 		    results.close();
@@ -50,6 +52,57 @@ public class QuoteManager {
 		   
 		    statement.setString(1, quote.getText());
 		    statement.setString(2, quote.getAuthor());
+		    
+		    statement.execute();
+		    ok = true;
+
+		    statement.close();
+		    connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return ok;
+	}
+
+	public Quote quoteByID(int quoteID) {
+		Quote quote = null;
+				
+		try {
+		    Connection connection = ds.getConnection();
+		    PreparedStatement statement = connection.prepareStatement(
+		    		"select * from quote where id = ?");
+		    statement.setInt(1, quoteID);
+		     
+		    ResultSet results = statement.executeQuery();
+		    
+			if (results.next()) {
+				quote = new Quote(results.getInt("id"),
+						results.getString("text"), 
+						results.getString("author"));
+			}
+		    
+		    results.close();
+		    statement.close();
+		    connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return quote;
+	}
+
+	public boolean updateQuote(Quote quote) {
+		boolean ok = false;
+		
+		try {
+		    Connection connection = ds.getConnection();
+		    PreparedStatement statement = connection.prepareStatement(
+		    		"update quote set text=?, author=? where id=?");
+		   
+		    statement.setString(1, quote.getText());
+		    statement.setString(2, quote.getAuthor());
+		    statement.setInt(3, quote.getID());
 		    
 		    statement.execute();
 		    ok = true;

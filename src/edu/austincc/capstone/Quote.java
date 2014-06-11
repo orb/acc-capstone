@@ -12,6 +12,7 @@ public class Quote {
 		this.author = author;
 	}
 	
+	/* for new quotes */
 	public Quote(String text, String author) {
 		this(-1, text, author);
 	}

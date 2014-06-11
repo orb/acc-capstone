@@ -25,9 +25,7 @@ public class NewQuoteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String text   = request.getParameter("text");
 		String author = request.getParameter("author");
-				
-		System.out.println("POST " + text + " -> " + author);
-		
+						
 		Quote quote = new Quote(text, author);
 		QuoteManager manager = new QuoteManager(ds);
 		
