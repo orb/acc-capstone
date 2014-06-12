@@ -16,7 +16,6 @@
 		<h1>The Great Quote Machine</h1>
 	</div>
 
-
 	<div class="container">
 		<c:forEach var="quote" items="${quotes}">
 
