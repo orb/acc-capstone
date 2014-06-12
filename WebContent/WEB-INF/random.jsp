@@ -27,9 +27,11 @@
 						<c:otherwise>
 							<li><a href="/list">All Quotes</a></li>
 							<li><a href="/new">Create</a></li>
-							
-						
-							<li><a href="/logout">Logout</a></li>
+							<li>
+								<p class="navbar-text">
+									[<b>${sessionScope.user.username}</b>] <a href="/logout">Logout</a>
+								</p>
+							</li>
 
 						</c:otherwise>
 					</c:choose>
