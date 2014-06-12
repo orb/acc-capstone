@@ -40,5 +40,13 @@ public class LoginServlet extends HttpServlet {
 		User user = manager.userByNameAndPassword(username, password);
 		return user;
 	}
-
 }
+
+
+
+
+
+
+
+
+

@@ -29,7 +29,6 @@ public class LoginFilter
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		User user = (User) httpRequest.getSession().getAttribute("user");
 		
-		System.out.println("FILTER USER is" + user);
 		if (user == null) {
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
 			httpResponse.sendRedirect("/login");
