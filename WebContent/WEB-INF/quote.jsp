@@ -15,9 +15,10 @@
 
 				<p>
 					<a href="/edit?id=${quote.ID}"><span class="glyphicon glyphicon-edit"></span></a>
-					${quote.text}
-				</p>
-				<footer>${quote.author}</footer>
+										
+					<c:out value="${quote.text}" />
+			    </p>
+				<footer><c:out value="${quote.author}" /></footer>
 			</blockquote>
 		</c:forEach>
 	</div>

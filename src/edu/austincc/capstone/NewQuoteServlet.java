@@ -25,17 +25,37 @@ public class NewQuoteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String text   = request.getParameter("text");
 		String author = request.getParameter("author");
-						
-		Quote quote = new Quote(text, author);
-		QuoteManager manager = new QuoteManager(ds);
 		
-		if (manager.newQuote(quote)) {
-			//success
-			response.sendRedirect("/");
-		} else {
-			//fail
-			request.getRequestDispatcher("/WEB-INF/newquote.jsp").forward(request, response);
+		if (!validText(text)) {
+			request.setAttribute("error", "You must enter a quote");
+			handleError(request, response);
+
+		} else if (!validText(author)) {
+			request.setAttribute("error", "You must enter an author");
+			handleError(request, response);
+
+	    } else {
+			Quote quote = new Quote(text, author);
+			QuoteManager manager = new QuoteManager(ds);
+
+			if (manager.newQuote(quote)) {
+				// success
+				response.sendRedirect("/");
+			} else {
+				request.setAttribute("error", "Database error");
+				handleError(request,response);
+			}
 		}
+	}
+	
+	void handleError(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException 
+	{
+		request.getRequestDispatcher("/WEB-INF/newquote.jsp").forward(request, response);
+	}
+	
+	boolean validText(String text) {
+		return text!=null && text.length()>0;
 	}
 }
 

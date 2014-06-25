@@ -14,33 +14,41 @@ import javax.sql.DataSource;
 public class EditQuoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@Resource(name="jdbc/QuoteDB")
+	@Resource(name = "jdbc/QuoteDB")
 	private DataSource ds;
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException
 	{
-		QuoteManager manager = new QuoteManager(ds);
+		Quote quote = null;
 		
-		int quoteID = Integer.parseInt(request.getParameter("id"));
-		Quote quote = manager.quoteByID(quoteID);
+		try {
+			QuoteManager manager = new QuoteManager(ds);
+
+			int quoteID = Integer.parseInt(request.getParameter("id"));
+			quote = manager.quoteByID(quoteID);
+		} catch (NumberFormatException e) {
+		}
 		
-		request.setAttribute("quote", quote);
-		
-		request.getRequestDispatcher("/WEB-INF/edit.jsp").forward(request, response);
+		if (quote == null) {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+		} else {
+			request.setAttribute("quote", quote);
+			request.getRequestDispatcher("/WEB-INF/edit.jsp").forward(request,response);
+		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException
 	{
-		int    id     = Integer.parseInt(request.getParameter("id"));
-		String text   = request.getParameter("text");
+		int id = Integer.parseInt(request.getParameter("id"));
+		String text = request.getParameter("text");
 		String author = request.getParameter("author");
-						
+
 		Quote quote = new Quote(id, text, author);
 		QuoteManager manager = new QuoteManager(ds);
-		
+
 		manager.updateQuote(quote);
-	    response.sendRedirect("/");
+		response.sendRedirect("/");
 	}
 }
