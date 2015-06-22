@@ -8,12 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/logout")
-public class LogoutServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+public class LogoutServlet
+        extends HttpServlet
+{
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getSession().removeAttribute("user");
-		response.sendRedirect("/");
-	}
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        request.getSession().removeAttribute("user");
+        response.sendRedirect("/");
+    }
 
 }

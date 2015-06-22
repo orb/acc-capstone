@@ -10,43 +10,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-
 @WebServlet("/login")
-public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+public class LoginServlet
+        extends HttpServlet
+{
 
-	@Resource(name="jdbc/QuoteDB")
-	private DataSource ds;
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
-	}
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String login    = request.getParameter("username");
-		String password = request.getParameter("password");
-		
-		User user = validateUser(login, password);
-		if (user != null) {
-			request.getSession().setAttribute("user", user);
-			response.sendRedirect("/");
-		} else {
-			request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,response);
-		}
-	}
+    @Resource(name = "jdbc/QuoteDB")
+    private DataSource ds;
 
-	private User validateUser(String username, String password) {
-		UserManager manager = new UserManager(ds);
-		User user = manager.userByNameAndPassword(username, password);
-		return user;
-	}
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        String login = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        User user = validateUser(login, password);
+        if (user != null) {
+            request.getSession().setAttribute("user", user);
+            response.sendRedirect("/");
+        } else {
+            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        }
+    }
+
+    private User validateUser(String username, String password)
+    {
+        UserManager manager = new UserManager(ds);
+        User user = manager.userByNameAndPassword(username, password);
+        return user;
+    }
 }
-
-
-
-
-
-
-
-
-
